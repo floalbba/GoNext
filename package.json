@@ -12,6 +12,8 @@
   "dependencies": {
     "expo": "~55.0.0",
     "expo-constants": "~18.0.0",
+    "expo-file-system": "~55.0.10",
+    "expo-image-picker": "~55.0.10",
     "expo-linking": "~7.0.0",
     "expo-router": "~5.0.0",
     "expo-splash-screen": "~55.0.10",

@@ -9,7 +9,14 @@
     "newArchEnabled": true,
     "plugins": [
       "expo-router",
-      "expo-sqlite"
+      "expo-sqlite",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Приложению нужен доступ к фото для прикрепления к местам.",
+          "cameraPermission": "Приложению нужна камера для съёмки фото мест."
+        }
+      ]
     ]
   }
 }

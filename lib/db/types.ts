@@ -8,7 +8,9 @@ export interface Place {
   description: string;
   visitlater: number; // 0 | 1
   liked: number; // 0 | 1
+  /** Широта в десятичных градусах (Decimal Degrees, DD), от -90 до 90 */
   latitude: number | null;
+  /** Долгота в десятичных градусах (Decimal Degrees, DD), от -180 до 180 */
   longitude: number | null;
   createdAt: string; // ISO
 }
