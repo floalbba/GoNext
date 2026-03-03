@@ -10,6 +10,7 @@ let dbInstance: SQLiteDatabase | null = null;
 
 /**
  * Инициализация БД: создание таблиц при первом запуске.
+ * Все данные хранятся локально (офлайн), интернет не требуется.
  */
 export async function initDb(): Promise<SQLiteDatabase> {
   if (dbInstance) return dbInstance;
