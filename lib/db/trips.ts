@@ -1,5 +1,7 @@
 import { getDb } from './database';
 import type { Trip } from './types';
+import { getTripPlacesWithPlaceInfo } from './tripPlaces';
+import type { TripPlaceWithPlace } from './tripPlaces';
 
 export async function getAllTrips(): Promise<Trip[]> {
   const db = getDb();
@@ -24,6 +26,21 @@ export async function getCurrentTrip(): Promise<Trip | null> {
     'SELECT id, title, description, startDate, endDate, createdAt, current FROM trips WHERE current = 1 LIMIT 1'
   );
   return rows?.[0] ?? null;
+}
+
+/**
+ * Следующее место в текущей поездке: первое непосещённое по порядку маршрута.
+ */
+export async function getNextPlace(): Promise<{
+  trip: Trip;
+  place: TripPlaceWithPlace;
+} | null> {
+  const trip = await getCurrentTrip();
+  if (!trip) return null;
+  const places = await getTripPlacesWithPlaceInfo(trip.id);
+  const next = places.find((p) => p.visited === 0);
+  if (!next) return null;
+  return { trip, place: next };
 }
 
 export async function createTrip(

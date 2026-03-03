@@ -3,6 +3,7 @@ import type { TripPlace, TripPlacePhoto } from './types';
 
 export interface TripPlaceWithPlace extends TripPlace {
   placeName: string;
+  placeDescription: string | null;
   latitude: number | null;
   longitude: number | null;
 }
@@ -22,7 +23,7 @@ export async function getTripPlacesWithPlaceInfo(
   const db = getDb();
   const rows = await db.getAllAsync<TripPlaceWithPlace>(
     `SELECT tp.id, tp.tripId, tp.placeId, tp."order", tp.visited, tp.visitDate, tp.notes,
-            p.name as placeName, p.latitude, p.longitude
+            p.name as placeName, p.description as placeDescription, p.latitude, p.longitude
      FROM trip_places tp
      LEFT JOIN places p ON p.id = tp.placeId
      WHERE tp.tripId = ?
