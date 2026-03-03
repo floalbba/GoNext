@@ -8,3 +8,4 @@ export * from './types';
 export * from './places';
 export * from './trips';
 export * from './tripPlaces';
+export type { TripPlaceWithPlace } from './tripPlaces';

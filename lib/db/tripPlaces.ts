@@ -1,10 +1,32 @@
 import { getDb } from './database';
 import type { TripPlace, TripPlacePhoto } from './types';
 
+export interface TripPlaceWithPlace extends TripPlace {
+  placeName: string;
+  latitude: number | null;
+  longitude: number | null;
+}
+
 export async function getTripPlaces(tripId: number): Promise<TripPlace[]> {
   const db = getDb();
   const rows = await db.getAllAsync<TripPlace>(
     'SELECT id, tripId, placeId, "order", visited, visitDate, notes FROM trip_places WHERE tripId = ? ORDER BY "order"',
+    tripId
+  );
+  return rows ?? [];
+}
+
+export async function getTripPlacesWithPlaceInfo(
+  tripId: number
+): Promise<TripPlaceWithPlace[]> {
+  const db = getDb();
+  const rows = await db.getAllAsync<TripPlaceWithPlace>(
+    `SELECT tp.id, tp.tripId, tp.placeId, tp."order", tp.visited, tp.visitDate, tp.notes,
+            p.name as placeName, p.latitude, p.longitude
+     FROM trip_places tp
+     LEFT JOIN places p ON p.id = tp.placeId
+     WHERE tp.tripId = ?
+     ORDER BY tp."order"`,
     tripId
   );
   return rows ?? [];
