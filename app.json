@@ -1,0 +1,14 @@
+{
+  "expo": {
+    "name": "GoNext",
+    "slug": "gonext",
+    "version": "1.0.0",
+    "scheme": "gonext",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "plugins": [
+      "expo-router"
+    ]
+  }
+}
