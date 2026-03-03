@@ -4,7 +4,6 @@ import {
   ActivityIndicator,
   Alert,
   Image,
-  Linking,
   ScrollView,
   StyleSheet,
   View,
@@ -42,15 +41,12 @@ import { getAllPlaces } from '../../../lib/db';
 import type { Place } from '../../../lib/db';
 import { getTripById } from '../../../lib/db';
 import type { Trip } from '../../../lib/db';
+import { openInNavigator, openOnMap } from '../../../lib/maps';
 import { photoPathToUri } from '../../../lib/placePhotos';
 import {
   pickAndSaveTripPlacePhoto,
   takeAndSaveTripPlacePhoto,
 } from '../../../lib/tripPlacePhotos';
-
-function openOnMap(lat: number, lon: number) {
-  Linking.openURL(`https://www.google.com/maps?q=${lat},${lon}`).catch(() => {});
-}
 
 function formatDate(s: string | null): string {
   if (!s) return '';
@@ -228,6 +224,11 @@ export default function TripDetailScreen() {
                   ? () => openOnMap(tp.latitude!, tp.longitude!)
                   : undefined
               }
+              onOpenInNavigator={
+                tp.latitude != null && tp.longitude != null
+                  ? () => openInNavigator(tp.latitude!, tp.longitude!)
+                  : undefined
+              }
               onAddPhoto={() => setPhotoMenuTripPlaceId(tp.id)}
               photoMenuVisible={photoMenuTripPlaceId === tp.id}
               onDismissPhotoMenu={() => setPhotoMenuTripPlaceId(null)}
@@ -300,6 +301,7 @@ function TripPlaceCard({
   onRemove,
   onEditNotes,
   onOpenMap,
+  onOpenInNavigator,
   onAddPhoto,
   photoMenuVisible,
   onDismissPhotoMenu,
@@ -317,6 +319,7 @@ function TripPlaceCard({
   onRemove: () => void;
   onEditNotes: () => void;
   onOpenMap?: () => void;
+  onOpenInNavigator?: () => void;
   onAddPhoto: () => void;
   photoMenuVisible: boolean;
   onDismissPhotoMenu: () => void;
@@ -358,6 +361,9 @@ function TripPlaceCard({
               </Button>
               {onOpenMap ? (
                 <Button compact onPress={onOpenMap}>На карте</Button>
+              ) : null}
+              {onOpenInNavigator ? (
+                <Button compact onPress={onOpenInNavigator}>В навигатор</Button>
               ) : null}
               <Menu
                 visible={photoMenuVisible}

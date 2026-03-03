@@ -1,21 +1,12 @@
 import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, Linking, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { Appbar, Button, Card, Text } from 'react-native-paper';
 import { ScreenBackground } from '../components/ScreenBackground';
 import { getNextPlace } from '../lib/db';
 import type { TripPlaceWithPlace } from '../lib/db';
 import type { Trip } from '../lib/db';
-
-function openOnMap(lat: number, lon: number) {
-  Linking.openURL(`https://www.google.com/maps?q=${lat},${lon}`).catch(() => {});
-}
-
-function openInNavigator(lat: number, lon: number) {
-  Linking.openURL(
-    `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`
-  ).catch(() => {});
-}
+import { openInNavigator, openOnMap } from '../lib/maps';
 
 type NextState =
   | { status: 'loading' }

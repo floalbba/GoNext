@@ -4,7 +4,6 @@ import {
   ActivityIndicator,
   Alert,
   Image,
-  Linking,
   ScrollView,
   StyleSheet,
   View,
@@ -26,16 +25,12 @@ import {
   removePlacePhoto,
 } from '../../../lib/db';
 import type { Place, PlacePhoto } from '../../../lib/db';
+import { openInNavigator, openOnMap } from '../../../lib/maps';
 import {
   photoPathToUri,
   pickAndSavePlacePhoto,
   takeAndSavePlacePhoto,
 } from '../../../lib/placePhotos';
-
-function openPlaceOnMap(lat: number, lon: number) {
-  const url = `https://www.google.com/maps?q=${lat},${lon}`;
-  Linking.openURL(url).catch(() => {});
-}
 
 export default function PlaceDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -67,7 +62,13 @@ export default function PlaceDetailScreen() {
 
   const handleOpenMap = () => {
     if (place?.latitude != null && place?.longitude != null) {
-      openPlaceOnMap(place.latitude, place.longitude);
+      openOnMap(place.latitude, place.longitude);
+    }
+  };
+
+  const handleOpenInNavigator = () => {
+    if (place?.latitude != null && place?.longitude != null) {
+      openInNavigator(place.latitude, place.longitude);
     }
   };
 
@@ -170,15 +171,26 @@ export default function PlaceDetailScreen() {
             {place.latitude?.toFixed(6)}, {place.longitude?.toFixed(6)} (DD)
           </Text>
         ) : null}
-        <Button
-          mode="outlined"
-          icon="map-marker"
-          onPress={handleOpenMap}
-          disabled={!hasCoords}
-          style={styles.mapButton}
-        >
-          Открыть на карте
-        </Button>
+        <View style={styles.mapButtons}>
+          <Button
+            mode="outlined"
+            icon="map-marker"
+            onPress={handleOpenMap}
+            disabled={!hasCoords}
+            style={styles.mapButton}
+          >
+            Открыть на карте
+          </Button>
+          <Button
+            mode="outlined"
+            icon="navigation"
+            onPress={handleOpenInNavigator}
+            disabled={!hasCoords}
+            style={styles.mapButton}
+          >
+            Открыть в навигаторе
+          </Button>
+        </View>
 
         <Text variant="titleMedium" style={styles.sectionTitle}>
           Фотографии
@@ -238,7 +250,8 @@ const styles = StyleSheet.create({
   description: { marginBottom: 12 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', marginBottom: 8 },
   coords: { opacity: 0.8, marginBottom: 12 },
-  mapButton: { marginBottom: 24 },
+  mapButtons: { gap: 12, marginBottom: 24 },
+  mapButton: {},
   sectionTitle: { marginBottom: 8 },
   hint: { opacity: 0.8, marginBottom: 16 },
   photosRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
