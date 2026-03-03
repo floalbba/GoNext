@@ -1,12 +1,13 @@
 import { useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { Appbar, Text } from 'react-native-paper';
+import { ScreenBackground } from '../components/ScreenBackground';
 
 export default function NextPlaceScreen() {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
+    <ScreenBackground style={styles.container}>
       <Appbar.Header>
         <Appbar.BackAction onPress={() => router.back()} />
         <Appbar.Content title="Следующее место" />
@@ -14,7 +15,7 @@ export default function NextPlaceScreen() {
       <View style={styles.content}>
         <Text variant="bodyLarge">Следующее место по маршруту будет здесь.</Text>
       </View>
-    </View>
+    </ScreenBackground>
   );
 }
 

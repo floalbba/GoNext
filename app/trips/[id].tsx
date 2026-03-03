@@ -1,13 +1,14 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { Appbar, Text } from 'react-native-paper';
+import { ScreenBackground } from '../../components/ScreenBackground';
 
 export default function TripDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
+    <ScreenBackground style={styles.container}>
       <Appbar.Header>
         <Appbar.BackAction onPress={() => router.back()} />
         <Appbar.Content title="Поездка" />
@@ -15,7 +16,7 @@ export default function TripDetailScreen() {
       <View style={styles.content}>
         <Text variant="bodyLarge">Детали поездки (id: {id})</Text>
       </View>
-    </View>
+    </ScreenBackground>
   );
 }
 

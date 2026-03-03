@@ -1,12 +1,13 @@
 import { useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { Appbar, Button, Text } from 'react-native-paper';
+import { ScreenBackground } from '../components/ScreenBackground';
 
 export default function HomeScreen() {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
+    <ScreenBackground style={styles.container}>
       <Appbar.Header>
         <Appbar.Content title="GoNext" />
       </Appbar.Header>
@@ -44,7 +45,7 @@ export default function HomeScreen() {
           Настройки
         </Button>
       </View>
-    </View>
+    </ScreenBackground>
   );
 }
 

@@ -1,12 +1,13 @@
 import { useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { Appbar, Button, Text } from 'react-native-paper';
+import { ScreenBackground } from '../../components/ScreenBackground';
 
 export default function TripsListScreen() {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
+    <ScreenBackground style={styles.container}>
       <Appbar.Header>
         <Appbar.BackAction onPress={() => router.back()} />
         <Appbar.Content title="Поездки" />
@@ -17,7 +18,7 @@ export default function TripsListScreen() {
           Назад
         </Button>
       </View>
-    </View>
+    </ScreenBackground>
   );
 }
 
