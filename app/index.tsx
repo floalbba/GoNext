@@ -1,12 +1,9 @@
-import { useState } from 'react';
+import { useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
-import { Appbar, Button, Snackbar, Text } from 'react-native-paper';
+import { Appbar, Button, Text } from 'react-native-paper';
 
 export default function HomeScreen() {
-  const [snackbarVisible, setSnackbarVisible] = useState(false);
-
-  const showSnackbar = () => setSnackbarVisible(true);
-  const hideSnackbar = () => setSnackbarVisible(false);
+  const router = useRouter();
 
   return (
     <View style={styles.container}>
@@ -15,21 +12,38 @@ export default function HomeScreen() {
       </Appbar.Header>
 
       <View style={styles.content}>
-        <Text variant="titleLarge" style={styles.text}>
-          Привет, Albert!
+        <Text variant="titleMedium" style={styles.hint}>
+          Выберите раздел
         </Text>
-        <Button mode="contained" onPress={showSnackbar}>
-          Нажми меня
+        <Button
+          mode="elevated"
+          onPress={() => router.push('/places')}
+          style={styles.button}
+        >
+          Места
+        </Button>
+        <Button
+          mode="elevated"
+          onPress={() => router.push('/trips')}
+          style={styles.button}
+        >
+          Поездки
+        </Button>
+        <Button
+          mode="elevated"
+          onPress={() => router.push('/next-place')}
+          style={styles.button}
+        >
+          Следующее место
+        </Button>
+        <Button
+          mode="elevated"
+          onPress={() => router.push('/settings')}
+          style={styles.button}
+        >
+          Настройки
         </Button>
       </View>
-
-      <Snackbar
-        visible={snackbarVisible}
-        onDismiss={hideSnackbar}
-        duration={3000}
-      >
-        Кнопка нажата
-      </Snackbar>
     </View>
   );
 }
@@ -40,12 +54,15 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 24,
     padding: 24,
+    gap: 12,
+    justifyContent: 'center',
   },
-  text: {
+  hint: {
     textAlign: 'center',
+    marginBottom: 16,
+  },
+  button: {
+    marginVertical: 4,
   },
 });
